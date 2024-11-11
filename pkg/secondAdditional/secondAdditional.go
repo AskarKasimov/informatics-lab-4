@@ -1,55 +1,45 @@
-package pkg
+package secondAdditional
 
-import "strings"
+import (
+	"regexp"
+	"strings"
+)
 
 func excludeMinus(str string) string {
-	for index := range str {
-		if str[index] == ' ' || str[index] == '-' {
-			continue
-		}
-		return str[index:]
-	}
-	panic("error")
+	re := regexp.MustCompile(`^[ -]*`)
+	return re.ReplaceAllString(str, "")
 }
 
 func hasMinus(str string) bool {
-	for index := range str {
-		if str[index] == ' ' {
-			continue
-		}
-		if str[index] == '-' {
-			return true
-		} else {
-			break
-		}
-	}
-	return false
+	re := regexp.MustCompile("^(  )*(- )")
+	return re.Match([]byte(str))
 }
 
 func countSpaces(str string) int {
-	counter := 0
-	for _, symbol := range str {
-		if symbol == ' ' || symbol == '-' {
-			counter += 1
-		} else {
-			break
-		}
-	}
-	return counter / 2
+	re := regexp.MustCompile("^(  )*(- )?")
+	return len(re.FindString(str)) / 2
 }
 
 func makeJsonString(str string) string {
-	if str[len(str)-1] == ':' {
-		return "\"" + str[:len(str)-1] + "\":"
-	}
-	if !strings.Contains(str, ": ") {
+	reKeyOnly := regexp.MustCompile(`^(.+):$`)
+	reKeyValue := regexp.MustCompile(`^(.+): (.+)$`)
+
+	if reKeyOnly.MatchString(str) {
+		// Если строка оканчивается на двоеточие, формируем ключ без значения
+		key := reKeyOnly.FindStringSubmatch(str)[1]
+		return "\"" + key + "\":"
+	} else if reKeyValue.MatchString(str) {
+		// Если строка содержит ключ и значение, разделенные ": "
+		matches := reKeyValue.FindStringSubmatch(str)
+		key, value := matches[1], matches[2]
+		return "\"" + key + "\":\"" + value + "\""
+	} else {
+		// Если строка не содержит ": ", возвращаем ее как строку
 		return "\"" + str + "\""
 	}
-	withColon := strings.Split(str, ": ")
-	return "\"" + withColon[0] + "\":\"" + withColon[1] + "\""
 }
 
-func MainTask(input string) string {
+func SecondAdditionalTask(input string) string {
 	slice := strings.Split(input, "\r\n")
 	bracers := ""
 	structure := ""

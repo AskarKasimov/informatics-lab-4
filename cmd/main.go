@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/AskarKasimov/informatics-lab-4/pkg"
+	"github.com/AskarKasimov/informatics-lab-4/pkg/firstAdditional"
+	"github.com/AskarKasimov/informatics-lab-4/pkg/mainTask"
+	"github.com/AskarKasimov/informatics-lab-4/pkg/secondAdditional"
 )
 
 func readInput() string {
@@ -17,6 +19,7 @@ func readInput() string {
 }
 
 func main() {
-	fmt.Println(pkg.MainTask(readInput()))
-	fmt.Println(pkg.FirstAdditionalTask(readInput()))
+	fmt.Println(mainTask.MainTask(readInput()))
+	fmt.Println(firstAdditional.FirstAdditionalTask(readInput()))
+	fmt.Println(secondAdditional.SecondAdditionalTask(readInput()))
 }
