@@ -32,15 +32,21 @@ func main() {
 		fmt.Println(secondAdditional.SecondAdditionalTask(readInput()))
 	case 4:
 		start0 := time.Now()
-		fmt.Println(mainTask.MainTask(readInput()))
-		end0 := time.Since(start0) * 100
+		for i := 0; i < 100; i++ {
+			mainTask.MainTask(readInput())
+		}
+		end0 := time.Since(start0)
 
 		start1 := time.Now()
-		fmt.Println(firstAdditional.FirstAdditionalTask(readInput()))
-		end1 := time.Since(start1) * 100
+		for i := 0; i < 100; i++ {
+			firstAdditional.FirstAdditionalTask(readInput())
+		}
+		end1 := time.Since(start1)
 
 		start2 := time.Now()
-		fmt.Println(secondAdditional.SecondAdditionalTask(readInput()))
+		for i := 0; i < 100; i++ {
+			secondAdditional.SecondAdditionalTask(readInput())
+		}
 		end2 := time.Since(start2) * 100
 
 		fmt.Println("Время выполнения базового скрипта: ", end0)
